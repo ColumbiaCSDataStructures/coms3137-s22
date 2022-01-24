@@ -9,7 +9,7 @@ public class BinarySearch {
     return -1;
   }
 
-  public static int binarySearch(Integer[] a, Integer x) { // runs in log_2(N) steps
+  public static <T extends Comparable<T>> int binarySearch(T[] a, T x) { // runs in log_2(N) steps
 
     int low = 0; 
     int high = a.length-1;
@@ -19,9 +19,9 @@ public class BinarySearch {
 
       int mid = (high + low) / 2;
 
-      if (a[mid] < x) {
+      if (a[mid].compareTo(x) < 0 ) {
         low = mid + 1; 
-      } else if (a[mid] > x) {
+      } else if (a[mid].compareTo(x) > 0) {
         high = mid - 1;
       } else {
         return mid;
