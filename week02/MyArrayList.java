@@ -6,9 +6,10 @@
  * Adapted from Weiss, Data Structures and Algorithm Analysis in Java. 3rd ed. 
  * http://users.cis.fiu.edu/~weiss/dsaajava3/code/MyArrayList.java
  */
+import java.util.Iterator; 
+//import java.lang.Iterable; // don't have to import java.lang
 
-
-public class MyArrayList<AnyType> implements List<AnyType> {
+public class MyArrayList<AnyType> implements List<AnyType>, Iterable<AnyType>{
 
     private static final int DEFAULT_CAPACITY = 10;
     
@@ -148,6 +149,34 @@ public class MyArrayList<AnyType> implements List<AnyType> {
    
 
 
+    public Iterator<AnyType> iterator() {
+    
+      return new ArrayListIterator(); 
+      //return this;
+
+    }
+
+    private class ArrayListIterator implements Iterator<AnyType> {
+    // inner class 
+
+      int current = 0;      
+
+      public boolean hasNext(){
+        return current < theSize; //size(); 
+      }
+
+      public AnyType next() {
+        AnyType result = get(current);  
+        current++;
+        return result; 
+      } 
+
+
+      public void remove() {
+      }
+
+    }
+
     
 
     public static void main(String[] argv){
@@ -157,11 +186,36 @@ public class MyArrayList<AnyType> implements List<AnyType> {
         list.add(2);
         list.add(3);
 
-        /*for (int i=0; i<list.size();i++) {
-            System.out.println(list.get(i));
-        }
-        */
 
+        /*
+        // Runtime for this on an arrayList: n 
+        // runtime for this on a linkedList: n^2
+        int total = 0;
+        for (int i=0; i<list.size();i++) {
+            total = total + list.get(i);
+        }
+
+        // Runtime for this on an arrayList: n 
+        // runtime for this on a linkedList: n^2
+       int total = 0;
+       for (Integer element : list) {
+         total = total + element; 
+       }*/
+        
+       for (Integer element : list) { 
+          for (Integer element2 : list) {
+            System.out.print(element);
+            System.out.print(" ");
+            System.out.println(element2);
+          } 
+       } 
+
+     /* Iterator<Integer> iter = list.iterator();
+      while (iter.hasNext()) {
+        Integer element = iter.next();
+        System.out.println(element);
+      }*/
+          
 
 
     }

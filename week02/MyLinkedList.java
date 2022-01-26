@@ -140,6 +140,7 @@ public class MyLinkedList<AnyType> implements List<AnyType> {
      * @throws IndexOutOfBoundsException if idx is not between lower and upper, inclusive.
      */    
     private Node<AnyType> getNode( int idx, int lower, int upper ) {
+
         Node<AnyType> p;
         
         if( idx < lower || idx > upper )
