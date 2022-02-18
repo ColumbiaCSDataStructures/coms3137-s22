@@ -8,7 +8,7 @@ public class Range implements Iterable<Integer> {
   int max;
   int increment;
 
-  private class RangeIterator implements Iterator<Integer> {
+  private class RangeIterator implements java.util.Iterator<Integer> {
 
     int current;    
     public RangeIterator(){
@@ -24,7 +24,7 @@ public class Range implements Iterable<Integer> {
 
     public Integer next() {
       Integer result = current;
-      curent += increment;
+      current += increment;
       return result;
     }
 
@@ -37,7 +37,7 @@ public class Range implements Iterable<Integer> {
 	public Range(int min, int max, int increment) {
 		// change this
     if (increment < 0 && min < max) 
-      throw new InvalidArgumentException("min must be greater than max if increment is negative");
+      throw new IllegalArgumentException("min must be greater than max if increment is negative");
 
     this.min = min;
     this.max = max; 
@@ -46,7 +46,7 @@ public class Range implements Iterable<Integer> {
 	}
 
 	public Range(int min, int max) {
-    this(min,max,1)
+    this(min,max,1);
 	}
 
 	public java.util.Iterator<Integer> iterator() {
