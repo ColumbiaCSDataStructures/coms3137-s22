@@ -31,20 +31,40 @@ public class BinarySearchTree<T extends Comparable<T>>
 	
     private BinaryNode<T> insert( T x, BinaryNode<T> t )
     {
-        if( t == null )
+        if( t == null ) // Not found, insert HERE
             return new BinaryNode<T>( x, null, null );
         
         int compareResult = x.compareTo( t.data );
             
         if( compareResult < 0 )
             t.left = insert( x, t.left );
+            //return new BinaryNode(x, insert(x, t.left), t.right);
         else if( compareResult > 0 )
             t.right = insert( x, t.right );
+            //return new BinaryNode(x, insert(x, t.left), t.right);
         else
+            //t.data = x; // alternative
             t = new BinaryNode(x, t.left, t.right);  // Duplicate; replace
         return t;
     }
 
+
+   /* private BinaryNode<T> lazyRemove(T x, BinaryNode<T> t)
+    {
+        if( t == null )
+            return t;   // Item not found; do nothing
+            
+        int compareResult = x.compareTo( t.data );
+            
+        if( compareResult < 0 )
+            t.left = lazyRemove( x, t.left );
+        else if( compareResult > 0 )
+            t.right = lazyRemove( x, t.right );
+        else 
+            t.deleted = True
+        return t;  
+     }
+    */   
  
     private BinaryNode<T> remove( T x, BinaryNode<T> t )
     {
@@ -60,21 +80,24 @@ public class BinarySearchTree<T extends Comparable<T>>
         else if( t.left != null && t.right != null ) // Two children
         {
             t.data = findMin( t.right ).data;
-            // t.data = findMax( t.left ).data;
-            t.right = remove( t.data, t.right );
+            //t.data = findMax( t.left ).data;
+            t.left = remove( t.data, t.left );
         }
         else
-            t = ( t.left != null ) ? t.left : t.right; // ternary operator 
+            return ( t.left != null ) ? t.left : t.right; // ternary operator 
+
+            //if (t.left != null) t.left else t.right // Scala-esque version
+
             /*if (t.left != null)
-                t  = t.left; 
+                return  t.left; 
             else 
-                t = t.right; */
+                return t.right; */
         return t;
     }
 	
 	private BinaryNode<T> findMin( BinaryNode<T> t )
     {
-        if( t == null )
+        if( t == null ) // this should never happen!
             return null;
         else if( t.left == null )
             return t;
@@ -139,6 +162,7 @@ public class BinarySearchTree<T extends Comparable<T>>
         T data;            // The data in the node
         BinaryNode<T> left;   // Left child
         BinaryNode<T> right;  // Right child
+        boolean deleted = false;
     }
 	
     BinaryNode<T> root;

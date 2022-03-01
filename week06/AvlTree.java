@@ -152,15 +152,15 @@ public class AvlTree<AnyType extends Comparable<? super AnyType>>
         
         if( height( t.left ) - height( t.right ) > ALLOWED_IMBALANCE )
             if( height( t.left.left ) >= height( t.left.right ) )
-                t = rotateWithLeftChild( t );
+                t = rotateWithLeftChild( t ); // LL outside
             else
-                t = doubleWithLeftChild( t );
+                t = doubleWithLeftChild( t ); // LR inside
         else
         if( height( t.right ) - height( t.left ) > ALLOWED_IMBALANCE )
             if( height( t.right.right ) >= height( t.right.left ) )
-                t = rotateWithRightChild( t );
+                t = rotateWithRightChild( t ); // RR outside
             else
-                t = doubleWithRightChild( t );
+                t = doubleWithRightChild( t ); // RL inside
 
         t.height = Math.max( height( t.left ), height( t.right ) ) + 1;
         return t;

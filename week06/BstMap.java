@@ -1,4 +1,6 @@
-public class BstMap<K extends Comparable<K>,V> implements Map<K,V> {
+import java.util.TreeMap; 
+
+public class BstMap<K extends Comparable<K>,V> { // implements Map<K,V> {
   
   BinarySearchTree<KVPair<K,V>> theBST; 
   
@@ -20,8 +22,9 @@ public class BstMap<K extends Comparable<K>,V> implements Map<K,V> {
   
   
   public static void main(String[] args) {
-    
-    Map<Integer, String> map = new BstMap<>();
+   
+    // Red-Black Tree 
+    TreeMap<Integer, String> map = new TreeMap<>();
     
     map.put(2,"b");
     map.put(1,"a");
