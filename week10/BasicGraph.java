@@ -41,10 +41,10 @@ public class BasicGraph<V> {
         if (!vertices.containsKey(w))
             addVertex(w);
 
-        vertices.get(u).adjacent.add(
-            new Edge(vertices.get(u), vertices.get(w), cost)); 
+        Vertex<V> uvertex = vertices.get(u);
+        uvertex.adjacent.add(
+            new Edge(uvertex, vertices.get(w), cost)); 
 
-        vertices.get(w).indegree += 1;       
 
 
     }
@@ -85,7 +85,7 @@ public class BasicGraph<V> {
         public V name;
         private List<Edge<V>> adjacent;
         int indegree; 
-        int cost; // length of shortest incoming path
+        //int cost; // length of shortest incoming path
 
         /**
          * Construct a new vertex containing an adjacency list.
@@ -95,17 +95,55 @@ public class BasicGraph<V> {
             name = vertexName;
             adjacent = new LinkedList<Edge<V>>(); 
             indegree = 0; 
-            cost = -1; 
+            //cost = -1; 
         }
 
         public String toString() {
-            return name + "," + cost; 
+            return name.toString(); //+ "," + cost; 
         }
 
     }
 
+    public void computeIndegrees() {
+
+      for (Vertex<V>  v: vertices.values()) { 
+        v.indegree = 0;
+     }
+
+      for (Vertex<V> v : vertices.values()) {
+        for (Edge<V> vw : v.adjacent) {
+          Vertex<V> w = vw.target; 
+          w.indegree++;
+        }
+      }
+
+    }
+
     public List<V> topo_sort() {
+      computeIndegrees();        
+
+      LinkedList<Vertex<V>> queue = new LinkedList<>();
+      
+      for (Vertex<V> v : vertices.values()) // find all vertices with 0 indegree 
+        if (v.indegree == 0)
+          queue.addFirst(v);
+
+      List<V> result = new LinkedList<>();
+
+      while (queue.size() > 0) {  // main loop, repeat until queue is empty 
         
+        Vertex<V> u = queue.pollFirst(); 
+        result.add(u.name);
+
+        for (Edge<V> uw : u.adjacent) {
+          Vertex<V> w = uw.target;
+          if (--w.indegree == 0)
+            queue.addFirst(w);
+        }
+
+      }
+
+      return result;  
     }
 
 
@@ -124,7 +162,7 @@ public class BasicGraph<V> {
         g.addEdge("v4","v6");
 
         g.printAdjacencyList();
-        //System.out.println(g.topo_sort());
+        System.out.println(g.topo_sort());
 
     } 
 
