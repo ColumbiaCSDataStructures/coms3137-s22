@@ -85,7 +85,8 @@ public class BasicGraph<V> {
         public V name;
         private List<Edge<V>> adjacent;
         int indegree; 
-        //int cost; // length of shortest incoming path
+        double cost; // length of shortest incoming path
+        Vertex<V> prev; 
 
         /**
          * Construct a new vertex containing an adjacency list.
@@ -95,7 +96,7 @@ public class BasicGraph<V> {
             name = vertexName;
             adjacent = new LinkedList<Edge<V>>(); 
             indegree = 0; 
-            //cost = -1; 
+            cost = Double.POSITIVE_INFINITY;
         }
 
         public String toString() {
@@ -145,6 +146,42 @@ public class BasicGraph<V> {
 
       return result;  
     }
+
+    public void bfs_shortest_path(V start) {
+
+      for (Vertex<V> v: vertices.values()) {
+        v.cost = Double.POSITIVE_INFINITY;
+        v.prev = null; 
+      }
+
+      Vertex<V> start_v = vertices.get(start);
+      start_v.cost = 0; 
+
+      LinkedList<Vertex<V>> queue = new LinkedList<>();
+
+      queue.addLast(start_v); 
+
+      while (queue.size() > 0) {
+
+        // visit vertex u 
+        Vertex<V> u = queue.pollFirst(); 
+
+        for (Edge<V> uv : u.adjacent) {
+          // discover vertex v
+          Vertex<V> v = uv.target; 
+            
+          if (v.cost == Double.POSITIVE_INFINITY)  {
+            v.cost = u.cost + 1; 
+            v.prev = u; 
+          }
+
+        }
+
+
+      }
+
+
+    } 
 
 
     public void printVertices() {
